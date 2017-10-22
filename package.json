@@ -6,14 +6,22 @@
   "scripts": {
     "test": "jest --watch",
     "dev": "set NODE_PATH=./lib&& nodemon --exec babel-node lib/server.js",
-    "webpack": "webpack -wd"
+    "webpack": "webpack -wd",
+    "verify-tests": "jest --coverage",
+    "build-webpack": "webpack -p",
+    "build-node": "babel lib -d build --copy-files",
+    "start-prod": "NODE_ENV=production NODE_PATH=./build pm2 start build/server.js -i max --name appProd"
   },
   "babel": {
     "presets": [
       "react",
-      "env",
-      "stage-2"
-    ]
+      ["env", {"targets": {"node":"current"}}]
+    ],
+      "plugins": [
+        "transform-class-properties",
+        "transform-object-rest-spread"
+      ]
+    
   },
   "author": "Vinod Kumar",
   "license": "ISC",
